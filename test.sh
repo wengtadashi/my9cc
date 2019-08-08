@@ -1,19 +1,19 @@
 #!/bin/bash
 try() {
-  expected="$1"
-  input="$2"
+    expected="$1"
+    input="$2"
 
-  ./9cc "$input" > tmp.s
-  gcc -static -o tmp tmp.s
-  ./tmp
-  actual="$?"
+    ./9cc "$input" > tmp.s
+    gcc -static -o tmp tmp.s
+    ./tmp
+    actual="$?"
 
-  if [ "$actual" == "$expected" ]; then
-    echo "$input => $actual"
-  else
-    echo "$input: $expected expected, but got $actual"
-    exit 1
-  fi
+    if [ "$actual" == "$expected" ]; then
+        echo "$input => $actual"
+    else
+        echo "$input: $expected expected, but got $actual"
+        exit 1
+    fi
 }
 
 try 10 'return 2*3+4;'
@@ -33,5 +33,7 @@ try 2 'a=2; return a;'
 try 10 'a=2; b=3+2; return a*b;'
 try 2 'if (1) return 2; return 3;'
 try 3 'if (0) return 2; return 3;'
+try 2 'if (1) return 2; else return 3;'
+try 3 'if (0) return 2; else return 3;'
 
 echo OK
